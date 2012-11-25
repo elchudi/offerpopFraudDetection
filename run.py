@@ -1,5 +1,6 @@
 import data
 import urllib2
+import time
 
 
 for k,v in data.urls.items():
@@ -7,4 +8,6 @@ for k,v in data.urls.items():
     html = response.read()
     pos = html.find('"VoteCount"')
     html_piece = html[pos: pos +20]
-    print k, html_piece[html_piece.find(">") + 1: html_piece.find("<")]
+    print k, html_piece[html_piece.find(">") + 1: html_piece.find("<")], time.time()
+
+
