@@ -9,7 +9,7 @@ with open("test.txt", "a") as myfile:
             html = response.read()
             pos = html.find('"VoteCount"')
             html_piece = html[pos: pos +20]
-            print k,",", html_piece[html_piece.find(">") + 1: html_piece.find("<")],",", time.time()
+            #print k,",", html_piece[html_piece.find(">") + 1: html_piece.find("<")],",", time.time()
             toapp = ",".join([ k, html_piece[html_piece.find(">") + 1: html_piece.find("<")],str( time.time())])
             myfile.write(toapp)
             myfile.write("\n")
