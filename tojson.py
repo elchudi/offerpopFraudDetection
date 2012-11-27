@@ -44,8 +44,13 @@ def read_files_into_json():
     return teams
        
 
-def interpolate(data):
-    pass
+def interpolatef(data):
+    times = data.keys()
+    times = map(int, times)
+    votes = data.values()
+    votes = map(int, votes)
+    fc = sp.interp1d(times,votes,20)
+    return fc
     
  
 while(True):
@@ -53,14 +58,22 @@ while(True):
     #print teams
     for team in teams.keys():
         fout = open(team ,"w+")
-        fout.write(repr(teams[team]))
+        fc = interpolatef(teams[team])
+        from_fc = {}
+        for k in teams[team].keys():
+            from_fc[k] = fc(int(k))
+        #fout.write(repr(teams[team]))
+        fout.write(repr(from_fc))
         fout.flush()
         fout.close()
     filesa = {}
     sorted_array = sort_array(teams)     
     #print sorted_array
     filesa["array"] = sorted_array
-    
+   
+
+
+ 
     fout = open("array","w+")
     fout.write(repr(filesa))
     fout.flush()
