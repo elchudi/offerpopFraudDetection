@@ -1,6 +1,6 @@
 import pickle
 import time
-teams = {}
+import scipy.interpolate as sp
 
 files = ["test.txt","test2.txt","test3.txt"]
 
@@ -26,8 +26,9 @@ def sort_array(teams):
     array = [item[0] for item in array]
     return array[::-1]
     
-        
-while(True):
+
+def read_files_into_json():
+    teams = {}
     for f in files:
         with open(f, "r") as myfile:
             for line in myfile.readlines():
@@ -40,16 +41,27 @@ while(True):
                     t = times[:times.find(".")]
                     if (len(str(t)) == 10):
                         teams[team][times[:times.find(".")]] = votes
+    return teams
+       
+
+def interpolate(data):
+    pass
+    
+ 
+while(True):
+    teams = read_files_into_json()
+    #print teams
     for team in teams.keys():
         fout = open(team ,"w+")
         fout.write(repr(teams[team]))
         fout.flush()
         fout.close()
-    files = {}
+    filesa = {}
     sorted_array = sort_array(teams)     
-    files["array"] = sorted_array
+    #print sorted_array
+    filesa["array"] = sorted_array
     
     fout = open("array","w+")
-    fout.write(repr(files))
+    fout.write(repr(filesa))
     fout.flush()
     fout.close()
