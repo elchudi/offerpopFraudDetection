@@ -1,6 +1,7 @@
 import pickle
 import time
 import scipy.interpolate as sp
+from scipy.misc import derivative
 
 files = ["test.txt","test2.txt","test3.txt"]
 
@@ -45,27 +46,50 @@ def read_files_into_json():
        
 
 def interpolatef(data):
-    times = data.keys()
+    data = sorted(data.items())
+    #print data
+    #times = data.keys()
+    times = [d[0] for d in data]
     times = map(int, times)
-    votes = data.values()
+    #votes = data.values()
+    votes = [d[1] for d in data]
     votes = map(int, votes)
-    fc = sp.interp1d(times,votes,20)
+    #print "min", min(times), " max ", max (times)
+    fc = sp.interp1d(times,votes,bounds_error=False,fill_value=0,kind=5)
     return fc
     
  
 while(True):
     teams = read_files_into_json()
     #print teams
+    print "for"
     for team in teams.keys():
+        print team
         fout = open(team ,"w+")
+        foutd1 = open(team+".d1" ,"w+")
+        foutd2 = open(team+".d2" ,"w+")
         fc = interpolatef(teams[team])
         from_fc = {}
+        from_fcd1 = {}
+        from_fcd2 = {}
         for k in teams[team].keys():
-            from_fc[k] = fc(int(k))
+            #print k
+            #print dir(fc(int(k)))
+            value = int(k)
+            from_fc[k] = fc(value).item()
+            from_fcd1[k] = derivative(fc,(value),dx=30,order=5)
+            from_fcd2[k] = derivative(fc,(value),dx=30,order=5, n=2)
+            
         #fout.write(repr(teams[team]))
         fout.write(repr(from_fc))
         fout.flush()
         fout.close()
+        foutd1.write(repr(from_fcd1))
+        foutd1.flush()
+        foutd1.close()
+        foutd2.write(repr(from_fcd2))
+        foutd2.flush()
+        foutd2.close()
     filesa = {}
     sorted_array = sort_array(teams)     
     #print sorted_array
