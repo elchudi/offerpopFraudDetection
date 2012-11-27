@@ -4,6 +4,29 @@ teams = {}
 
 files = ["test.txt","test2.txt","test3.txt"]
 
+    
+
+def sort_array(teams):  
+    array = []
+    team_names = teams.keys()
+    for t_name in teams.keys():
+        """
+        times = teams[t_name].keys()
+        times = map(int, times)
+        """
+        votes = teams[t_name].values()
+        votes = map(int, votes)
+        #print t_name
+        #print votes
+        total_votes = 0
+        if votes:
+            total_votes = max(votes)
+            array.append((t_name, total_votes)) 
+    array = sorted(array, key=lambda votes: votes[1])
+    array = [item[0] for item in array]
+    return array[::-1]
+    
+        
 while(True):
     for f in files:
         with open(f, "r") as myfile:
@@ -23,10 +46,10 @@ while(True):
         fout.flush()
         fout.close()
     files = {}
-    files["array"] = teams.keys()
+    sorted_array = sort_array(teams)     
+    files["array"] = sorted_array
     
     fout = open("array","w+")
     fout.write(repr(files))
     fout.flush()
     fout.close()
-        
