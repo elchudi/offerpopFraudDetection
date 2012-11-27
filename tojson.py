@@ -2,7 +2,7 @@ import pickle
 import time
 import scipy.interpolate as sp
 from scipy.misc import derivative
-
+import numpy as np
 files = ["test.txt","test2.txt","test3.txt"]
 
     
@@ -77,8 +77,12 @@ while(True):
             #print dir(fc(int(k)))
             value = int(k)
             from_fc[k] = fc(value).item()
-            from_fcd1[k] = derivative(fc,(value),dx=30,order=5)
-            from_fcd2[k] = derivative(fc,(value),dx=30,order=5, n=2)
+            v1 =  derivative(fc,(value),dx=60,order=5) 
+            #from_fcd1[k] = v1 if v1 > 0.0001 else 0
+            from_fcd1[k] = str(v1)
+            v2 =  derivative(fc,(value),dx=60,order=5, n=2)
+            #from_fcd2[k] =  v2 if v2 > 0.0001 else 0
+            from_fcd2[k] =  str(v2)
             
         #fout.write(repr(teams[team]))
         fout.write(repr(from_fc))
