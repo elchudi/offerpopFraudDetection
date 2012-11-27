@@ -2,7 +2,7 @@ import pickle
 import time
 teams = {}
 
-files = ["test.txt","test2.txt"]
+files = ["test.txt","test2.txt","test3.txt"]
 
 while(True):
     for f in files:
