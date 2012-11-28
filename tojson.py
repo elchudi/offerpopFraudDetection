@@ -61,17 +61,17 @@ def interpolatef(data):
 def write_non_fancy(teams):
     #print teams
     for team in teams.keys():
-        fout = open(team ,"w+")
+        fout = open(team+".d0" ,"w+")
         fout.write(repr(teams[team]))
         fout.flush()
         fout.close()
     filesa = {}
     sorted_array = sort_array(teams)
     #print sorted_array
-    filesa["array"] = sorted_array
+    filesa["array"] = [f + ".d0" for f in sorted_array]
 
     fout = open("array","w+")
-    fout.write(repr(filesa)+".d0")
+    fout.write(repr(filesa))
     fout.flush()
     fout.close()
 
