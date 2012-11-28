@@ -3,7 +3,7 @@ import time
 import scipy.interpolate as sp
 from scipy.misc import derivative
 import numpy as np
-files = ["test.txt","test2.txt","test3.txt"]
+files = ["data_complete.ready"]
 
     
 
@@ -57,11 +57,26 @@ def interpolatef(data):
     #print "min", min(times), " max ", max (times)
     fc = sp.interp1d(times,votes,bounds_error=False,fill_value=0,kind=5)
     return fc
-    
- 
-while(True):
-    teams = read_files_into_json()
+
+def write_non_fancy(teams):
     #print teams
+    for team in teams.keys():
+        fout = open(team ,"w+")
+        fout.write(repr(teams[team]))
+        fout.flush()
+        fout.close()
+    filesa = {}
+    sorted_array = sort_array(teams)
+    #print sorted_array
+    filesa["array"] = sorted_array
+
+    fout = open("array","w+")
+    fout.write(repr(filesa)+".d0")
+    fout.flush()
+    fout.close()
+
+
+def write_fancy(teams):
     print "for"
     for team in teams.keys():
         print team
@@ -106,3 +121,9 @@ while(True):
     fout.write(repr(filesa))
     fout.flush()
     fout.close()
+    
+ 
+while(True):
+    teams = read_files_into_json()
+    write_non_fancy(teams)
+    #print teams
