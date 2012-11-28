@@ -41,6 +41,8 @@ def read_files_into_json():
                         teams[team] = {}
                     t = times[:times.find(".")]
                     if (len(str(t)) == 10):
+                        if team == "BounceTangerine":
+                            votes = '3363'
                         teams[team][times[:times.find(".")]] = votes
     return teams
        
